@@ -1,6 +1,6 @@
 <?php
 
-namespace Dev\PostmanExporter\Services;
+namespace NabilaAhmed\PostmanExporter\Services;
 
 use Illuminate\Support\Facades\Http;
 
@@ -48,6 +48,11 @@ class PostmanApiService
                     [
                         'key' => 'base_url',
                         'value' => rtrim($appUrl, '/'),
+                        'type' => 'string'
+                    ],
+                    [
+                        'key' => 'bearer_token',
+                        'value' => 'paste_token_here',
                         'type' => 'string'
                     ]
                 ]

@@ -1,9 +1,9 @@
 <?php
 
-namespace Dev\PostmanExporter;
+namespace NabilaAhmed\PostmanExporter;
 
 use Illuminate\Support\ServiceProvider;
-use Dev\PostmanExporter\Commands\ExportToPostman;
+use NabilaAhmed\PostmanExporter\Commands\ExportToPostman;
 
 class PostmanExporterServiceProvider extends ServiceProvider
 {

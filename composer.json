@@ -1,12 +1,12 @@
 {
-    "name": "dev/laravel-postman-exporter",
+    "name": "nabilaahmed/laravel-postman-exporter",
     "description": "Automatically export and sync Laravel API routes to Postman Collections",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Developer",
-            "email": "dev@example.com"
+            "name": "Nabila Ahmed",
+            "email": "nabilashabban2000@gmail.com"
         }
     ],
     "require": {
@@ -17,13 +17,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Dev\\PostmanExporter\\": "src/"
+            "NabilaAhmed\\PostmanExporter\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Dev\\PostmanExporter\\PostmanExporterServiceProvider"
+                "NabilaAhmed\\PostmanExporter\\PostmanExporterServiceProvider"
             ]
         }
     }

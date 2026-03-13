@@ -16,14 +16,14 @@ This package iterates through your Laravel routes (api middleware), generates sm
 
 ## Installation
 
-1. **Install via Composer:** (Note: Replace `dev/laravel-postman-exporter` with your actual package name once published)
+1. **Install via Composer:**
    ```bash
-   composer require dev/laravel-postman-exporter
+   composer require nabilaahmed/laravel-postman-exporter
    ```
 
 2. **Publish Configuration:**
    ```bash
-   php artisan vendor:publish --provider="Dev\PostmanExporter\PostmanExporterServiceProvider"
+   php artisan vendor:publish --provider="NabilaAhmed\PostmanExporter\PostmanExporterServiceProvider"
    ```
 
 3. **Configure .env:**

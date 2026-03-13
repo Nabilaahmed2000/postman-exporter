@@ -1,11 +1,11 @@
 <?php
 
-namespace Dev\PostmanExporter\Commands;
+namespace NabilaAhmed\PostmanExporter\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Route;
-use Dev\PostmanExporter\Services\PostmanDataGenerator;
-use Dev\PostmanExporter\Services\PostmanApiService;
+use NabilaAhmed\PostmanExporter\Services\PostmanDataGenerator;
+use NabilaAhmed\PostmanExporter\Services\PostmanApiService;
 use Illuminate\Support\Str;
 
 class ExportToPostman extends Command
@@ -64,27 +64,49 @@ class ExportToPostman extends Command
                 $body = $generator->generateForRoute($controller, $method);
             }
 
+            // Auth Detection
+            $auth = null;
+            $middleware = (array) $route->gatherMiddleware();
+            if (collect($middleware)->contains(fn($m) => Str::startsWith($m, 'auth') || Str::contains($m, 'sanctum'))) {
+                $auth = [
+                    'type' => 'bearer',
+                    'bearer' => [
+                        [
+                            'key' => 'token',
+                            'value' => '{{bearer_token}}',
+                            'type' => 'string'
+                        ]
+                    ]
+                ];
+            }
+
             foreach ($methods as $method) {
+                $request = [
+                    'method' => $method,
+                    'header' => [
+                        ['key' => 'Accept', 'value' => 'application/json', 'type' => 'text'],
+                        ['key' => 'Content-Type', 'value' => 'application/json', 'type' => 'text'],
+                    ],
+                    'body' => [
+                        'mode' => 'raw',
+                        'raw' => json_encode($body, JSON_PRETTY_PRINT),
+                        'options' => ['raw' => ['language' => 'json']]
+                    ],
+                    'url' => [
+                        'raw' => "{{base_url}}/{$uri}",
+                        'host' => ["{{base_url}}"],
+                        'path' => explode('/', $uri)
+                    ],
+                    'description' => "Controller Action: $action"
+                ];
+
+                if ($auth) {
+                    $request['auth'] = $auth;
+                }
+
                 $itemsByFolder[$folderName][] = [
                     'name' => $route->getName() ?? "[$method] $uri",
-                    'request' => [
-                        'method' => $method,
-                        'header' => [
-                            ['key' => 'Accept', 'value' => 'application/json', 'type' => 'text'],
-                            ['key' => 'Content-Type', 'value' => 'application/json', 'type' => 'text'],
-                        ],
-                        'body' => [
-                            'mode' => 'raw',
-                            'raw' => json_encode($body, JSON_PRETTY_PRINT),
-                            'options' => ['raw' => ['language' => 'json']]
-                        ],
-                        'url' => [
-                            'raw' => "{{base_url}}/{$uri}",
-                            'host' => ["{{base_url}}"],
-                            'path' => explode('/', $uri)
-                        ],
-                        'description' => "Controller Action: $action"
-                    ],
+                    'request' => $request,
                     'response' => []
                 ];
             }

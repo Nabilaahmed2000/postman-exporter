@@ -1,6 +1,6 @@
 <?php
 
-namespace Dev\PostmanExporter\Services;
+namespace NabilaAhmed\PostmanExporter\Services;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
