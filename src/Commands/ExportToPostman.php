@@ -104,8 +104,13 @@ class ExportToPostman extends Command
                     $request['auth'] = $auth;
                 }
 
+                $name = $route->getName();
+                if (empty($name) || \Illuminate\Support\Str::endsWith($name, '.')) {
+                    $name = "[$method] $uri";
+                }
+
                 $itemsByFolder[$folderName][] = [
-                    'name' => $route->getName() ?? "[$method] $uri",
+                    'name' => $name,
                     'request' => $request,
                     'response' => []
                 ];
